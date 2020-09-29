@@ -39,12 +39,13 @@ img_gray=cv.cvtColor(img_src,cv.COLOR_BGR2GRAY)
 add_pic('gray',img_gray)
 
 # 双边滤波
-img_bilater = cv.bilateralFilter(img_gray,9,75,75)
+# img_bilater = cv.bilateralFilter(img_gray,9,75,75)
+# add_pic('bilater',img_bilater)
+#由于鱼苗过小，很容易被误认为噪音，考虑去除滤波操作
 
-add_pic('bilater',img_bilater)
 
-sobelx = cv.Sobel(img_bilater,cv.CV_64F, 1, 0,ksize=3)
-sobely = cv.Sobel(img_bilater, cv.CV_64F, 0, 1, ksize=3)
+sobelx = cv.Sobel(img_gray,cv.CV_64F, 1, 0,ksize=3)
+sobely = cv.Sobel(img_gray, cv.CV_64F, 0, 1, ksize=3)
 
 sobelx_abs=cv.convertScaleAbs(sobelx)
 sobely_abs=cv.convertScaleAbs(sobely)
