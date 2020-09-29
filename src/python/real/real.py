@@ -30,7 +30,7 @@ def output_precess():
 
 
 
-img_src=cv.imread('G:/fish.jpg')
+img_src=cv.imread('G:/fish_.jpg')
 
 add_pic('src',img_src)
 
@@ -54,6 +54,9 @@ img_sobelXY=cv.addWeighted(sobelx_abs,0.5,sobely_abs,0.5,10)
 
 add_pic('sobelXY',img_sobelXY)
 
+img_bilater = cv.bilateralFilter(img_sobelXY,9,75,75)
+add_pic('bilater',img_bilater)
+
 # ret,sobelXY_2v=cv.threshold(img_sobelXY,50,255,cv.THRESH_BINARY)
 #
 # add_pic('sobelXY_2v',sobelXY_2v)
@@ -64,14 +67,15 @@ add_pic('sobelXY',img_sobelXY)
 #非但无用，反而会抹除全部的鱼
 
 
-sobel_gray_anti=np.array(img_sobelXY)
+sobel_anti=np.array(img_bilater)
+sobel_anti=255-sobel_anti
+add_pic('sobel_anti',sobel_anti)
 
-sobel_gray_anti=255-sobel_gray_anti
-
-add_pic('sobel_gray_anti',sobel_gray_anti)
+img_bilater_2 = cv.bilateralFilter(sobel_anti,9,75,75)
+add_pic('bilater_2',img_bilater_2)
 
 kernel=np.ones((2,2),np.uint8) #进行腐蚀膨胀操作
-erosion=cv.erode(sobel_gray_anti,kernel,iterations=5)
+erosion=cv.erode(img_bilater_2,kernel,iterations=5)
 add_pic('erosion',erosion)
 
 dilation=cv.dilate(erosion,kernel,iterations=5)
