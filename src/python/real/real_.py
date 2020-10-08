@@ -115,6 +115,7 @@ add_pic('soimg',soimg)
 contours,hirearchy=cv.findContours(soimg, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)# 找出连通域
 
 img_dst=np.array(img_src)
+img_dst_soimg=np.array(soimg)
 
 area=[] #建立空数组，放连通域面积
 contours1=[]   #建立空数组，放减去后的数组
@@ -125,10 +126,12 @@ for i in contours:
         contours1.append(i)
 print(len(contours1)-1) #计算连通域个数
 draw=cv.drawContours(img_dst,contours1,-1,(0,255,0),1) #描绘连通域
-gray_dst=np.array(img_gray)
-draw=cv.drawContours(gray_dst,contours1,-1,(0,255,0),1) #描绘连通域
+
+draw=cv.drawContours(img_dst_soimg,contours1,-1,(0,255,0),1) #描绘连通域
 
 add_pic('dst',img_dst)
+
+add_pic('dst_soimg',img_dst_soimg)
 
 # show_process_pic()
 
